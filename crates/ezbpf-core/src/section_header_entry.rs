@@ -30,6 +30,10 @@ impl SectionHeaderEntry {
         }
         Ok(ixs)
     }
+
+    pub fn to_bytes(&self) -> Vec<u8> {
+        self.data.clone()
+    }
 }
 
 impl Serialize for SectionHeaderEntry {

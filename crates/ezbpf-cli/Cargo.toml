@@ -2,6 +2,7 @@
 name = "ezbpf"
 version = "0.1.0"
 edition = "2021"
+authors = ["Dean Little <@deanmlittle>"]
 
 [dependencies]
 anyhow = "1.0.86"

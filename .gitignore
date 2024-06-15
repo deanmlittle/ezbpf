@@ -2,3 +2,4 @@
 .vscode
 Cargo.lock
 *.so
+node_modules

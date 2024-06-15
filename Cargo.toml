@@ -1,8 +1,7 @@
 [workspace]
-authors = [
-    "Dean Little <@deanmlittle>"
-]
 members = [
     "crates/ezbpf-core",
-    "crates/ezbpf-cli"
+    "crates/ezbpf-cli",
+    "crates/ezbpf-wasm"
 ]
+resolver = "2"

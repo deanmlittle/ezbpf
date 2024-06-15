@@ -7,4 +7,5 @@ A simple sBPF (Solana eBPF) disassembler. There are 3 main packages:
 ### Installation
 
 To install ezBPF simply run this command
+
 ```cargo install --git https://github.com/deanmlittle/ezbpf```
