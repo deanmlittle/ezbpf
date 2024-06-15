@@ -1,0 +1,12 @@
+[package]
+name = "ezbpf"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.86"
+clap = { version = "4.5.4", features = ["derive"] }
+clap_derive = { version = "4.5.5" }
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.117"
+ezbpf-core = { path = "../ezbpf-core" }
