@@ -1,18 +1,41 @@
 use std::{fmt::Debug, io::Cursor};
 
 use serde::{ser::Error, Deserialize, Serialize, Serializer};
-use serde_json::{error, Value};
+use serde_json::{error, Map, Value};
 
 use crate::{cursor::ELFCursor, errors::EZBpfError, instructions::Ix};
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SectionHeaderEntry {
     pub label: String,
     pub offset: usize,
     pub data: Vec<u8>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub ixs: Vec<Ix>,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub utf8: String
 }
 
 impl SectionHeaderEntry {
+    pub fn new(label: String, offset: usize, data: Vec<u8>) -> Result<Self, EZBpfError> {
+        let mut h = SectionHeaderEntry {
+            label,
+            offset: offset,
+            data,
+            ixs: vec![],
+            utf8: String::new()
+        };
+
+        if &h.label == ".text\0" {
+            h.ixs = h.to_ixs()?;
+        }
+
+        if let Ok(utf8) = String::from_utf8(h.data.clone()) {
+            h.utf8 = utf8;
+        }
+        Ok(h)
+    }
+
     pub fn offset(&self) -> usize {
         self.offset
     }
@@ -25,7 +48,7 @@ impl SectionHeaderEntry {
         if self.data.len() >= 8 {
             let mut c = Cursor::new(self.data.as_slice());
             while let Ok(ix) = c.read_ix() {
-                ixs.push(ix)
+                ixs.push(ix);
             }
         }
         Ok(ixs)
@@ -33,44 +56,6 @@ impl SectionHeaderEntry {
 
     pub fn to_bytes(&self) -> Vec<u8> {
         self.data.clone()
-    }
-}
-
-impl Serialize for SectionHeaderEntry {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let mut json_value = serde_json::Map::new();
-
-        json_value.insert("label".to_string(), Value::String(self.label.clone()));
-        json_value.insert("offset".to_string(), Value::Number(self.offset.into()));
-
-        if self.label.as_str() == ".text\0" {
-            json_value.insert(
-                "ixs".to_string(),
-                Value::Array(
-                    self.to_ixs()
-                        .map_err(|_| error::Error::custom("Invalid IX"))
-                        .unwrap()
-                        .into_iter()
-                        .map(|ix| {
-                            Value::String(
-                                ix.to_asm()
-                                    .map_err(|_| error::Error::custom("Invalid IX"))
-                                    .unwrap(),
-                            )
-                        })
-                        .collect::<Vec<Value>>(),
-                ),
-            );
-        };
-
-        if let Ok(utf8) = String::from_utf8(self.data.clone()) {
-            json_value.insert("utf8".to_string(), Value::String(utf8));
-        }
-
-        json_value.serialize(serializer)
     }
 }
 
@@ -85,11 +70,11 @@ mod test {
             0x00, 0x00, 0x95, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         ];
 
-        let h = SectionHeaderEntry {
-            label: ".text\0".to_string(),
-            offset: 128,
-            data: data.clone(),
-        };
+        let h = SectionHeaderEntry::new(
+            ".text\0".to_string(),
+            128,
+            data.clone()
+        ).unwrap();
 
         let ixs = vec![
             Ix {

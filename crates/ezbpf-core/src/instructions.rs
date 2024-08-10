@@ -1,8 +1,10 @@
 use std::io::Cursor;
 
+use serde::{Deserialize, Serialize};
+
 use crate::{cursor::ELFCursor, errors::EZBpfError, opcodes::OpCode};
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Ix {
     pub op: OpCode,
     pub dst: u8,

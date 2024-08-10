@@ -1,10 +1,12 @@
 use core::str;
 use std::fmt::Display;
 
+use serde::{Deserialize, Serialize};
+
 use crate::errors::EZBpfError;
 
 #[repr(u8)]
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub enum OpCode {
     Lddw = 0x18,
     Ldxb = 0x71,
