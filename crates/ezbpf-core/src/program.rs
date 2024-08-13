@@ -10,10 +10,10 @@ use crate::{
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Program {
-    elf_header: ELFHeader,
-    program_headers: Vec<ProgramHeader>,
-    section_headers: Vec<SectionHeader>,
-    section_header_entries: Vec<SectionHeaderEntry>,
+    pub elf_header: ELFHeader,
+    pub program_headers: Vec<ProgramHeader>,
+    pub section_headers: Vec<SectionHeader>,
+    pub section_header_entries: Vec<SectionHeaderEntry>,
 }
 
 impl Program {
