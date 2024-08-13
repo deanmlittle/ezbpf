@@ -59,7 +59,7 @@ impl Ix {
     pub fn to_asm(&self) -> Result<String, EZBpfError> {
         Ok(match self.op {
             // lddw - (load double word) takes up two instructions. The 64 bit value
-            // is made up of two halves with the uppser half being the immediate
+            // is made up of two halves with the upper half being the immediate
             // of the lddw value and the lower half being the immediate of the
             // following instruction
             OpCode::Lddw => format!("{} r{}, {}", self.op, self.dst, self.imm),
