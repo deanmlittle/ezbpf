@@ -1,0 +1,19 @@
+{
+  "name": "ezbpf-wasm",
+  "collaborators": [
+    "Dean Little <@deanmlittle>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "ezbpf_wasm_bg.wasm",
+    "ezbpf_wasm.js",
+    "ezbpf_wasm_bg.js",
+    "ezbpf_wasm.d.ts"
+  ],
+  "module": "ezbpf_wasm.js",
+  "types": "ezbpf_wasm.d.ts",
+  "sideEffects": [
+    "./ezbpf_wasm.js",
+    "./snippets/*"
+  ]
+}
