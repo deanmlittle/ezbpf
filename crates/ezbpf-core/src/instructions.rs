@@ -79,7 +79,7 @@ impl Ix {
             OpCode::Stxb |
             OpCode::Stxh |
             OpCode::Stxw |
-            OpCode::Stxdw => format!("{} {}, {}", self.op, self.dst_off(), self.src),
+            OpCode::Stxdw => format!("{} {}, r{}", self.op, self.dst_off(), self.src),
             // Math
             OpCode::Neg32 | // Deprecated in SBFv2
             OpCode::Neg64 => format!("{} r{}", self.op, self.dst),
