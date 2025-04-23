@@ -21,6 +21,5 @@ impl Program {
     #[wasm_bindgen]
     pub fn to_json(&self) -> Result<JsValue, JsValue> {
         to_value(&self.inner).map_err(|e| JsValue::from_str(&e.to_string()))
-        // Ok(self.inner.to_json())
     }
 }

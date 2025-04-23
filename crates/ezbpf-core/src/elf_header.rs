@@ -14,6 +14,7 @@ pub const EI_ABIVERSION: u8 = 0x00; // No ABI version
 pub const EI_PAD: [u8; 7] = [0u8; 7]; // Padding
 pub const E_TYPE: u16 = 0x03; // ET_DYN - shared object
 pub const E_MACHINE: u16 = 0xf7; // Berkeley Packet Filter
+pub const E_MACHINE_SBPF: u16 = 0x0107; // Solana Berkeley Packet Filter
 pub const E_VERSION: u32 = 0x01; // Original version of BPF
 
 fn elf_magic<S>(magic: &[u8; 4], serializer: S) -> Result<S::Ok, S::Error>
@@ -91,6 +92,13 @@ mod tests {
     #[test]
     fn serialize_e2e() {
         let b = hex!("7F454C460201010000000000000000000300F7000100000078000000000000004000000000000000900000000000000000000000400038000100400003000200");
+        let h = ELFHeader::from_bytes(&b).unwrap();
+        assert_eq!(h.to_bytes(), &b)
+    }
+    
+    #[test]
+    fn serialize_sbpf_machine_e2e() {
+        let b = hex!("7F454C46020101000000000000000000030007010100000020010000000000004000000000000000680200000000000000000000400038000300400006000500");
         let h = ELFHeader::from_bytes(&b).unwrap();
         assert_eq!(h.to_bytes(), &b)
     }
