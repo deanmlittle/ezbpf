@@ -2,7 +2,8 @@ use std::io::{Cursor, Read, Seek, SeekFrom};
 
 use crate::{
     elf_header::{
-        ELFHeader, EI_ABIVERSION, EI_CLASS, EI_DATA, EI_MAGIC, EI_OSABI, EI_PAD, EI_VERSION, E_MACHINE, E_MACHINE_SBPF, E_TYPE, E_VERSION
+        ELFHeader, EI_ABIVERSION, EI_CLASS, EI_DATA, EI_MAGIC, EI_OSABI, EI_PAD, EI_VERSION,
+        E_MACHINE, E_MACHINE_SBPF, E_TYPE, E_VERSION,
     },
     errors::EZBpfError,
     instructions::Ix,

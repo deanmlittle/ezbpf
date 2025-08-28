@@ -17,5 +17,5 @@ pub enum EZBpfError {
     #[error("Invalid data length")]
     InvalidDataLength,
     #[error("Invalid string")]
-    InvalidString
+    InvalidString,
 }

@@ -38,19 +38,23 @@ impl Program {
         let mut indices: Vec<u32> = section_headers.iter().map(|h| h.sh_name).collect();
         indices.push(shstrndx.sh_size as u32);
         indices.sort_unstable();
-    
-        let section_header_entries = section_headers.iter().map(|s| {
-            let current_offset = s.sh_name as usize;
-            let next_index = indices.binary_search(&s.sh_name).unwrap() + 1 as usize;
-            let next_offset = *indices.get(next_index).ok_or(EZBpfError::InvalidString)? as usize;
 
-            let label = String::from_utf8(
-                shstrndx_value[current_offset..next_offset].to_vec(),
-            ).unwrap_or("default".to_string());
-            let data = b[s.sh_offset as usize..s.sh_offset as usize + s.sh_size as usize].to_vec();
+        let section_header_entries = section_headers
+            .iter()
+            .map(|s| {
+                let current_offset = s.sh_name as usize;
+                let next_index = indices.binary_search(&s.sh_name).unwrap() + 1_usize;
+                let next_offset =
+                    *indices.get(next_index).ok_or(EZBpfError::InvalidString)? as usize;
 
-            SectionHeaderEntry::new(label, s.sh_offset as usize, data)
-        }).collect::<Result<Vec<_>, _>>()?;
+                let label = String::from_utf8(shstrndx_value[current_offset..next_offset].to_vec())
+                    .unwrap_or("default".to_string());
+                let data =
+                    b[s.sh_offset as usize..s.sh_offset as usize + s.sh_size as usize].to_vec();
+
+                SectionHeaderEntry::new(label, s.sh_offset as usize, data)
+            })
+            .collect::<Result<Vec<_>, _>>()?;
 
         Ok(Self {
             elf_header,
@@ -60,7 +64,6 @@ impl Program {
         })
     }
 }
-
 
 #[cfg(test)]
 mod tests {

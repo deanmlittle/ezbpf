@@ -9,14 +9,14 @@ name = "ezbpf_wasm"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-anyhow = "1.0.86"
-wasm-bindgen = "0.2.92"
-hex = "0.4.3"
+anyhow = "1.0"
+wasm-bindgen = "0.2"
+hex = "0.4"
 ezbpf-core = { path = "../ezbpf-core" }
-thiserror = "1.0.61"
-serde = { version = "1.0.203", features = ["derive"] }
-serde-wasm-bindgen = "0.6.5"
-serde_json = "1.0.117"
+thiserror = "2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+serde_json = "1.0"
 
 [dev-dependencies]
-hex-literal = "0.4.1"
+hex-literal = "1.0"

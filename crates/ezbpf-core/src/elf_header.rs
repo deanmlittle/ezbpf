@@ -95,7 +95,7 @@ mod tests {
         let h = ELFHeader::from_bytes(&b).unwrap();
         assert_eq!(h.to_bytes(), &b)
     }
-    
+
     #[test]
     fn serialize_sbpf_machine_e2e() {
         let b = hex!("7F454C46020101000000000000000000030007010100000020010000000000004000000000000000680200000000000000000000400038000300400006000500");
