@@ -1,7 +1,6 @@
 use std::{fmt::Debug, io::Cursor};
 
-use serde::{ser::Error, Deserialize, Serialize, Serializer};
-use serde_json::{error, Map, Value};
+use serde::{Deserialize, Serialize};
 
 use crate::{cursor::ELFCursor, errors::EZBpfError, instructions::Ix};
 
@@ -13,17 +12,17 @@ pub struct SectionHeaderEntry {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub ixs: Vec<Ix>,
     #[serde(skip_serializing_if = "String::is_empty")]
-    pub utf8: String
+    pub utf8: String,
 }
 
 impl SectionHeaderEntry {
     pub fn new(label: String, offset: usize, data: Vec<u8>) -> Result<Self, EZBpfError> {
         let mut h = SectionHeaderEntry {
             label,
-            offset: offset,
+            offset,
             data,
             ixs: vec![],
-            utf8: String::new()
+            utf8: String::new(),
         };
 
         if &h.label == ".text\0" {
@@ -70,11 +69,7 @@ mod test {
             0x00, 0x00, 0x95, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         ];
 
-        let h = SectionHeaderEntry::new(
-            ".text\0".to_string(),
-            128,
-            data.clone()
-        ).unwrap();
+        let h = SectionHeaderEntry::new(".text\0".to_string(), 128, data.clone()).unwrap();
 
         let ixs = vec![
             Ix {
