@@ -1,6 +1,5 @@
 use anyhow::Result;
 use clap::Parser;
-use ezbpf_core::errors::EZBpfError;
 use ezbpf_core::program::Program;
 use std::fs::File;
 use std::io::Read;
@@ -11,8 +10,9 @@ struct Args {
     /// Filename of IDL file
     #[arg(short, long)]
     filename: String,
+    /// Print asm instead of json
     #[arg(short, long)]
-    asm: Option<String>,
+    asm: bool,
 }
 
 fn main() -> Result<()> {
@@ -21,9 +21,26 @@ fn main() -> Result<()> {
     let mut b = vec![];
     file.read_to_end(&mut b)?;
     let program = Program::from_bytes(b.as_ref())?;
-    match args.asm {
-        Some(_) => println!("{}", program.section_header_entries.iter().map(|h| h.ixs.clone()).filter(|ixs| !ixs.is_empty()).map(|ixs| ixs.iter().map(|i| i.to_asm().unwrap()).collect::<Vec<String>>().join("\n")).collect::<Vec<String>>().join("\n")),
-        None => println!("{}", serde_json::to_string_pretty(&program)?)
+
+    if args.asm {
+        println!(
+            "{}",
+            program
+                .section_header_entries
+                .iter()
+                .map(|h| h.ixs.clone())
+                .filter(|ixs| !ixs.is_empty())
+                .map(|ixs| ixs
+                    .iter()
+                    .map(|i| i.to_asm().unwrap())
+                    .collect::<Vec<String>>()
+                    .join("\n"))
+                .collect::<Vec<String>>()
+                .join("\n")
+        );
+    } else {
+        println!("{}", serde_json::to_string_pretty(&program)?);
     }
+
     Ok(())
 }

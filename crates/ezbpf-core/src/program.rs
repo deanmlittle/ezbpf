@@ -41,7 +41,7 @@ impl Program {
     
         let section_header_entries = section_headers.iter().map(|s| {
             let current_offset = s.sh_name as usize;
-            let next_index = indices.binary_search(&s.sh_name).unwrap() + 1 as usize;
+            let next_index = indices.binary_search(&s.sh_name).unwrap() + 1;
             let next_offset = *indices.get(next_index).ok_or(EZBpfError::InvalidString)? as usize;
 
             let label = String::from_utf8(
