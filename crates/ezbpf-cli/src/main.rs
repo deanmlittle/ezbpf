@@ -8,7 +8,7 @@ use std::io::Read;
 #[command(version, about, long_about = None)]
 struct Args {
     /// Filename of IDL file
-    #[arg(short, long)]
+    #[arg()]
     filename: String,
     /// Print asm instead of json
     #[arg(short, long)]

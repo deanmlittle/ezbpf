@@ -17,11 +17,13 @@ cargo install --git https://github.com/deanmlittle/ezbpf
 ### How to Use
 
 ```
-Usage: ezbpf [OPTIONS] --filename <FILENAME>
+Usage: ezbpf [OPTIONS] <FILENAME>
+
+Arguments:
+  <FILENAME>  Filename of IDL file
 
 Options:
-  -f, --filename <FILENAME>  Filename of IDL file
-  -a, --asm                  Print asm instead of json
-  -h, --help                 Print help
-  -V, --version              Print version
+  -a, --asm      Print asm instead of json
+  -h, --help     Print help
+  -V, --version  Print version
 ```
