@@ -169,6 +169,8 @@ impl Ix {
             OpCode::Ja => format!("{} {}", self.op, self.off_str()),
 
             // Immediates
+            OpCode::JeqImm |
+            OpCode::JgtImm |
             OpCode::JgeImm |
             OpCode::JltImm |
             OpCode::JleImm |
@@ -179,8 +181,6 @@ impl Ix {
             OpCode::JsltImm |
             OpCode::JsleImm => format!("{} r{}, {}, {}", self.op, self.dst, self.imm, self.off_str()),
             // Registers
-            OpCode::JeqImm |
-            OpCode::JgtImm |
             OpCode::JeqReg |
             OpCode::JgtReg |
             OpCode::JgeReg |
