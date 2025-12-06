@@ -1,4 +1,7 @@
-# ezBPF
+# DEPRECATED: 
+This project is now deprecated in favor of [sbpf](https://github.com/blueshift-gg/sbpf) – a more advanced, actively maintained alternative.
+
+## ezBPF
 
 A simple sBPF (Solana eBPF) disassembler. There are 3 main packages:
 
